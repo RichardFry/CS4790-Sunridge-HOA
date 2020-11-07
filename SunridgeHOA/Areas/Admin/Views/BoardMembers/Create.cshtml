@@ -1,0 +1,51 @@
+﻿@model SunridgeHOA.Areas.Admin.Models.BoardMember
+@{
+    ViewData["Title"] = "Create New Board Member";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Create New Board Member</h2>
+
+<hr />
+<form asp-action="Create">
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-md-4">
+            <h5>Personal Information</h5>
+            <div class="form-group">
+                <label asp-for="Owner.FirstName" class="control-label"></label>
+                <input asp-for="Owner.FirstName" class="form-control" />
+                <span asp-validation-for="Owner.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Owner.LastName" class="control-label"></label>
+                <input asp-for="Owner.LastName" class="form-control" />
+                <span asp-validation-for="Owner.LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    <input asp-for="IsActive"/>
+                    Is the user active?
+                </label>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h5>Contact Information</h5>
+            <div class="form-group">
+                <label asp-for="Photo.Image"></label>
+                <input type="file" name="files" class="form-control" />
+                <span asp-validation-for="Photo.Image" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+    <div class="row">
+        <a asp-action="Index">Back to List</a>
+    </div>
+</form>
+
+
+

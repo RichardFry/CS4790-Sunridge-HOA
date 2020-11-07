@@ -1,0 +1,46 @@
+﻿@model SunridgeHOA.Areas.Admin.Models.BoardMember
+
+@{
+    ViewData["Title"] = "Edit Board Member";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Edit Information for @Model.FullName</h2>
+<hr />
+<form asp-action="Edit">
+    <div class="row">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="BoardMemberId" />
+        <div class="col-md-6">
+            <h5>Information</h5>
+            <div class="form-group">
+                <label asp-for="BoardPosition" class="control-label"></label>
+                <input asp-for="BoardPosition" class="form-control" />
+                <span asp-validation-for="BoardPosition" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Priority" class="control-label"></label>
+                <input asp-for="Priority" class="form-control" />
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Photo" class="control-label"></label>
+                <input asp-for="Photo" class="form-control" />
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsActive" class="control-label"></label>
+                <input asp-for="IsActive" class="form-control" />
+                <span asp-validation-for="IsActive" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</form>

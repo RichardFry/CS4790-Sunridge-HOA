@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SunridgeHOA.Areas.Admin.Models;
 using SunridgeHOA.Areas.Admin.Data;
-using SunridgeHOA.Areas.Owner.Models.ViewModels;
+using SunridgeHOA.Areas.Admin.Models;
 using SunridgeHOA.Models;
 using SunridgeHOA.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SunridgeHOA.Areas.Admin.Controllers
 {

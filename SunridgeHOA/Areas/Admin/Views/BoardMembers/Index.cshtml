@@ -1,0 +1,93 @@
+﻿@model SunridgeHOA.Utility.PaginatedList< SunridgeHOA.Areas.Admin.Models.BoardMember>
+
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Board Members Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Board Members Index</h2>
+
+<div class="row justify-content-between">
+    <div class="col-lg-3 col-md-6">
+        <p id="btn-group">
+            <a asp-action="Create" class="btn btn-primary btn-sm btn-block">Create New Owner</a>
+        </p>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <form asp-action="Index" class="form">
+            <div class="input-group">
+                <input type="text" class="form-control" name="Query" placeholder="Search by name" />
+                <div class="input-group-append"><input type="submit" value="Search" id="search" class="btn btn-secondary" /></div>
+            </div>
+            <div class="mt-2">
+                <a asp-action="Index" class="ml-2">Show Full List</a>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="table-responsive-sm">
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr id="headTr">
+                <th>
+                    @Html.DisplayNameFor(model => model[0].FullName)
+                </th>
+                <th class="shrink-responsive">
+                    Board Positon
+                </th>
+                <th>
+                    Is Active
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @item.BoardPosition
+                    </td>
+                    <td>
+                        @item.IsActive
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a asp-action="Edit" asp-route-id="@item.BoardMemberId" class="btn btn-info btn-sm"><span class="d-none d-lg-block">Edit</span><i class="fas fa-edit d-lg-none"></i></a>
+                            <a asp-action="LoginInfo" asp-route-id="@item.BoardMemberId" class="btn btn-success btn-sm"><span class="d-none d-lg-block">Password Reset</span><i class="fas fa-key d-lg-none"></i></a>
+                            <a asp-action="Details" asp-route-id="@item.BoardMemberId" class="btn btn-warning btn-sm"><span class="d-none d-lg-block">Details</span><i class="fas fa-info d-lg-none"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.BoardMemberId" class="btn btn-danger btn-sm"><span class="d-none d-lg-block">Delete</span><i class="fas fa-trash d-lg-none"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-query="@ViewBag.CurrentQuery" class="btn btn-default @prevDisabled">Previous</a>
+<a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-query="@ViewBag.CurrentQuery" class="btn btn-default @nextDisabled">Next</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
