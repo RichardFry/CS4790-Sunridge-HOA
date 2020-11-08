@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SunridgeHOA.Models;
+using SunridgeHOA.Areas.Admin.Models;
 
 namespace SunridgeHOA.Models
 {
@@ -42,6 +43,6 @@ namespace SunridgeHOA.Models
 
         //gk
         public DbSet<Photo> Photo { get; set; }
-        //public DbSet<NewsItem> NewsItem { get; set; }
+        public DbSet<BoardMember> BoardMember { get; internal set; }
     }
 }
