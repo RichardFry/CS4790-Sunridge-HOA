@@ -22,6 +22,8 @@ namespace SunridgeHOA.Areas.Admin.Models
         [Required]
         public int Priority { get; set; }
 
+        public int test { get; set; }
+
         [Required]
         public string PhotoId { get; set; }
 
