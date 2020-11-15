@@ -42,7 +42,7 @@ namespace SunridgeHOA.Areas.Admin.Models
         [ForeignKey("OwnerId")]
         public virtual SunridgeHOA.Models.Owner Owner { get; set; }
 
-        [ForeignKey("PhotoId")]
+        [ForeignKey("PhotoIdFK")]
         public virtual Photo Photo { get; set; }
 
         [ForeignKey("LotId")]
