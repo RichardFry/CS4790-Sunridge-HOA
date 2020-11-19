@@ -1,51 +1,58 @@
 ﻿@model SunridgeHOA.Areas.Admin.Models.BoardMember
+
 @{
-    ViewData["Title"] = "Create New Board Member";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Create";
 }
 
-<h2>Create New Board Member</h2>
+<h2>Create</h2>
 
+<h4>BoardMember</h4>
 <hr />
-<form asp-action="Create">
-    <div class="row">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="col-md-4">
-            <h5>Personal Information</h5>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Owner.FirstName" class="control-label"></label>
-                <input asp-for="Owner.FirstName" class="form-control" />
-                <span asp-validation-for="Owner.FirstName" class="text-danger"></span>
+                <label asp-for="BoardPosition" class="control-label"></label>
+                <input asp-for="BoardPosition" class="form-control" />
+                <span asp-validation-for="BoardPosition" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Owner.LastName" class="control-label"></label>
-                <input asp-for="Owner.LastName" class="form-control" />
-                <span asp-validation-for="Owner.LastName" class="text-danger"></span>
+                <label asp-for="OwnerId" class="control-label"></label>
+                <select asp-for="OwnerId" class ="form-control" asp-items="ViewBag.OwnerId"></select>
             </div>
-
             <div class="form-group">
-                <label class="control-label">
-                    <input asp-for="IsActive"/>
-                    Is the user active?
-                </label>
+                <label asp-for="OwnerLotId" class="control-label"></label>
+                <select asp-for="OwnerLotId" class ="form-control" asp-items="ViewBag.OwnerLotId"></select>
             </div>
-        </div>
-        <div class="col-md-4">
-            <h5>Contact Information</h5>
             <div class="form-group">
-                <label asp-for="Photo.Image"></label>
-                <input type="file" name="files" class="form-control" />
-                <span asp-validation-for="Photo.Image" class="text-danger"></span>
+                <label asp-for="Priority" class="control-label"></label>
+                <input asp-for="Priority" class="form-control" />
+                <span asp-validation-for="Priority" class="text-danger"></span>
             </div>
-        </div>
+            <div class="form-group">
+                <label asp-for="PhotoId" class="control-label"></label>
+                <input asp-for="PhotoId" class="form-control" />
+                <span asp-validation-for="PhotoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
-    </div>
-    <div class="row">
-        <a asp-action="Index">Back to List</a>
-    </div>
-</form>
+</div>
 
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
-
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

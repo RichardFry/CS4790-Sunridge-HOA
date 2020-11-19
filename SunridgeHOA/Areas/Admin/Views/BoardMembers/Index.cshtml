@@ -1,93 +1,65 @@
-﻿@model SunridgeHOA.Utility.PaginatedList< SunridgeHOA.Areas.Admin.Models.BoardMember>
-
-@using Microsoft.AspNetCore.Identity
-@inject UserManager<ApplicationUser> UserManager
+﻿@model IEnumerable<SunridgeHOA.Areas.Admin.Models.BoardMember>
 
 @{
-    ViewData["Title"] = "Board Members Index";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Index";
 }
 
-<h2>Board Members Index</h2>
+<h2>Index</h2>
 
-<div class="row justify-content-between">
-    <div class="col-lg-3 col-md-6">
-        <p id="btn-group">
-            <a asp-action="Create" class="btn btn-primary btn-sm btn-block">Create New Owner</a>
-        </p>
-    </div>
-    <div class="col-lg-4 col-md-6">
-        <form asp-action="Index" class="form">
-            <div class="input-group">
-                <input type="text" class="form-control" name="Query" placeholder="Search by name" />
-                <div class="input-group-append"><input type="submit" value="Search" id="search" class="btn btn-secondary" /></div>
-            </div>
-            <div class="mt-2">
-                <a asp-action="Index" class="ml-2">Show Full List</a>
-            </div>
-        </form>
-    </div>
-</div>
-<div class="table-responsive-sm">
-    <table class="table table-sm table-hover">
-        <thead>
-            <tr id="headTr">
-                <th>
-                    @Html.DisplayNameFor(model => model[0].FullName)
-                </th>
-                <th class="shrink-responsive">
-                    Board Positon
-                </th>
-                <th>
-                    Is Active
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FullName)
-                    </td>
-                    <td>
-                        @item.BoardPosition
-                    </td>
-                    <td>
-                        @item.IsActive
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <a asp-action="Edit" asp-route-id="@item.BoardMemberId" class="btn btn-info btn-sm"><span class="d-none d-lg-block">Edit</span><i class="fas fa-edit d-lg-none"></i></a>
-                            <a asp-action="LoginInfo" asp-route-id="@item.BoardMemberId" class="btn btn-success btn-sm"><span class="d-none d-lg-block">Password Reset</span><i class="fas fa-key d-lg-none"></i></a>
-                            <a asp-action="Details" asp-route-id="@item.BoardMemberId" class="btn btn-warning btn-sm"><span class="d-none d-lg-block">Details</span><i class="fas fa-info d-lg-none"></i></a>
-                            <a asp-action="Delete" asp-route-id="@item.BoardMemberId" class="btn btn-danger btn-sm"><span class="d-none d-lg-block">Delete</span><i class="fas fa-trash d-lg-none"></i></a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-@{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BoardPosition)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Priority)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhotoId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Owner)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OwnerLot)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BoardPosition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Priority)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhotoId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Owner.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OwnerLot.OwnerLotId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.BoardMemberId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.BoardMemberId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.BoardMemberId">Delete</a>
+            </td>
+        </tr>
 }
-
-<a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-query="@ViewBag.CurrentQuery" class="btn btn-default @prevDisabled">Previous</a>
-<a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-query="@ViewBag.CurrentQuery" class="btn btn-default @nextDisabled">Next</a>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    </tbody>
+</table>
