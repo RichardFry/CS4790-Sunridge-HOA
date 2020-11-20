@@ -23,7 +23,7 @@ namespace SunridgeHOA.Areas.Admin.Controllers
         // GET: Admin/BoardMembers
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.BoardMember.Include(b => b.Owner).Include(b => b.OwnerLot);
+            var applicationDbContext = _context.BoardMember.Include(b => b.Owner);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -37,7 +37,6 @@ namespace SunridgeHOA.Areas.Admin.Controllers
 
             var boardMember = await _context.BoardMember
                 .Include(b => b.Owner)
-                .Include(b => b.OwnerLot)
                 .FirstOrDefaultAsync(m => m.BoardMemberId == id);
             if (boardMember == null)
             {
@@ -50,8 +49,7 @@ namespace SunridgeHOA.Areas.Admin.Controllers
         // GET: Admin/BoardMembers/Create
         public IActionResult Create()
         {
-            ViewData["OwnerId"] = new SelectList(_context.Owner, "OwnerId", "FirstName");
-            ViewData["OwnerLotId"] = new SelectList(_context.OwnerLot, "OwnerLotId", "OwnerLotId");
+            ViewData["OwnerId"] = new SelectList(_context.Owner, "OwnerId", "FullName");
             return View();
         }
 
@@ -60,7 +58,7 @@ namespace SunridgeHOA.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BoardMemberId,BoardPosition,OwnerId,OwnerLotId,Priority,PhotoId,IsActive")] BoardMember boardMember)
+        public async Task<IActionResult> Create([Bind("BoardMemberId,BoardPosition,OwnerId,Priority,PhotoId,IsActive")] BoardMember boardMember)
         {
             if (ModelState.IsValid)
             {
@@ -69,7 +67,6 @@ namespace SunridgeHOA.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["OwnerId"] = new SelectList(_context.Owner, "OwnerId", "FirstName", boardMember.OwnerId);
-            ViewData["OwnerLotId"] = new SelectList(_context.OwnerLot, "OwnerLotId", "OwnerLotId", boardMember.OwnerLotId);
             return View(boardMember);
         }
 
@@ -87,7 +84,6 @@ namespace SunridgeHOA.Areas.Admin.Controllers
                 return NotFound();
             }
             ViewData["OwnerId"] = new SelectList(_context.Owner, "OwnerId", "FirstName", boardMember.OwnerId);
-            ViewData["OwnerLotId"] = new SelectList(_context.OwnerLot, "OwnerLotId", "OwnerLotId", boardMember.OwnerLotId);
             return View(boardMember);
         }
 
@@ -96,7 +92,7 @@ namespace SunridgeHOA.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BoardMemberId,BoardPosition,OwnerId,OwnerLotId,Priority,PhotoId,IsActive")] BoardMember boardMember)
+        public async Task<IActionResult> Edit(int id, [Bind("BoardMemberId,BoardPosition,OwnerId,Priority,PhotoId,IsActive")] BoardMember boardMember)
         {
             if (id != boardMember.BoardMemberId)
             {
@@ -124,7 +120,6 @@ namespace SunridgeHOA.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["OwnerId"] = new SelectList(_context.Owner, "OwnerId", "FirstName", boardMember.OwnerId);
-            ViewData["OwnerLotId"] = new SelectList(_context.OwnerLot, "OwnerLotId", "OwnerLotId", boardMember.OwnerLotId);
             return View(boardMember);
         }
 
@@ -138,7 +133,6 @@ namespace SunridgeHOA.Areas.Admin.Controllers
 
             var boardMember = await _context.BoardMember
                 .Include(b => b.Owner)
-                .Include(b => b.OwnerLot)
                 .FirstOrDefaultAsync(m => m.BoardMemberId == id);
             if (boardMember == null)
             {

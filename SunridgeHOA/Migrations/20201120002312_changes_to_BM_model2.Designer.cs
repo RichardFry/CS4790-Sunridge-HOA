@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SunridgeHOA.Models;
 
 namespace SunridgeHOA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201120002312_changes_to_BM_model2")]
+    partial class changes_to_BM_model2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,6 +143,8 @@ namespace SunridgeHOA.Migrations
 
                     b.Property<int>("OwnerId");
 
+                    b.Property<int>("OwnerLotId");
+
                     b.Property<string>("PhotoId");
 
                     b.Property<int>("Priority");
@@ -148,6 +152,8 @@ namespace SunridgeHOA.Migrations
                     b.HasKey("BoardMemberId");
 
                     b.HasIndex("OwnerId");
+
+                    b.HasIndex("OwnerLotId");
 
                     b.ToTable("BoardMember");
                 });
@@ -919,6 +925,11 @@ namespace SunridgeHOA.Migrations
                     b.HasOne("SunridgeHOA.Models.Owner", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SunridgeHOA.Models.OwnerLot", "OwnerLot")
+                        .WithMany()
+                        .HasForeignKey("OwnerLotId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

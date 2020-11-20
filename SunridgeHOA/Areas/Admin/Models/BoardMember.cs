@@ -14,16 +14,14 @@ namespace SunridgeHOA.Areas.Admin.Models
 
         public int OwnerId { get; set; }
 
-        public int OwnerLotId { get; set; }
-
         public int Priority { get; set; }
 
         public string PhotoId { get; set; }
 
         public bool IsActive { get; set; }
 
-        // Calculated properties
-        [Display(Name = "Name")]
+         //Calculated properties
+        //[Display(Name = "Name")]
         public string FullName
         {
             get
@@ -34,9 +32,5 @@ namespace SunridgeHOA.Areas.Admin.Models
 
         [Display(Name = "Owner Name")]
         public virtual SunridgeHOA.Models.Owner Owner { get; set; }
-
-        public virtual Photo Photo { get; set; }
-
-        public virtual OwnerLot OwnerLot { get; set; }
     }
 }
