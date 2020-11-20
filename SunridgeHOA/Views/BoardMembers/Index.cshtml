@@ -33,7 +33,7 @@
         <thead>
             <tr id="headTr">
                 <th>
-                    @Html.DisplayNameFor(model => model[0].FullName)
+                    @Html.DisplayNameFor(model => model[0].Owner.FullName)
                 </th>
                 <th class="shrink-responsive">
                     Board Positon
@@ -48,7 +48,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.FullName)
+                        @Html.DisplayFor(modelItem => item.Owner.FullName)
                     </td>
                     <td>
                         @item.BoardPosition

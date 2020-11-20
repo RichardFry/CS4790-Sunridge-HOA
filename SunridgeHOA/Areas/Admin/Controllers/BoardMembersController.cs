@@ -58,7 +58,7 @@ namespace SunridgeHOA.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BoardMemberId,BoardPosition,OwnerId,Priority,PhotoId,IsActive")] BoardMember boardMember)
+        public async Task<IActionResult> Create([Bind("BoardMemberId,BoardPosition,OwnerId,Priority,IsActive")] BoardMember boardMember)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace SunridgeHOA.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BoardMemberId,BoardPosition,OwnerId,Priority,PhotoId,IsActive")] BoardMember boardMember)
+        public async Task<IActionResult> Edit(int id, [Bind("BoardMemberId,BoardPosition,OwnerId,Priority,IsActive")] BoardMember boardMember)
         {
             if (id != boardMember.BoardMemberId)
             {
