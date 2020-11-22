@@ -141,11 +141,15 @@ namespace SunridgeHOA.Migrations
 
                     b.Property<int>("OwnerId");
 
+                    b.Property<int>("PhotoId");
+
                     b.Property<int>("Priority");
 
                     b.HasKey("BoardMemberId");
 
                     b.HasIndex("OwnerId");
+
+                    b.HasIndex("PhotoId");
 
                     b.ToTable("BoardMember");
                 });
@@ -917,6 +921,11 @@ namespace SunridgeHOA.Migrations
                     b.HasOne("SunridgeHOA.Models.Owner", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SunridgeHOA.Models.Photo", "Photo")
+                        .WithMany()
+                        .HasForeignKey("PhotoId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

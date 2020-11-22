@@ -28,6 +28,14 @@
     <Compile Remove="Migrations\20190328043336_newInitial.Designer.cs" />
     <Compile Remove="Migrations\20190322222152_test.cs" />
     <Compile Remove="Migrations\20190322222152_test.Designer.cs" />
+    <Compile Remove="Migrations\20201120050551_changes_to_BM_model4.cs" />
+    <Compile Remove="Migrations\20201120050551_changes_to_BM_model4.Designer.cs" />
+    <Compile Remove="Migrations\20201120093735_changes_to_BM_model5.cs" />
+    <Compile Remove="Migrations\20201120093735_changes_to_BM_model5.Designer.cs" />
+    <Compile Remove="Migrations\20201122002218_additional-photos-details.cs" />
+    <Compile Remove="Migrations\20201122002218_additional-photos-details.Designer.cs" />
+    <Compile Remove="Migrations\20201122003844_Add_Photo_to_BM.cs" />
+    <Compile Remove="Migrations\20201122003844_Add_Photo_to_BM.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

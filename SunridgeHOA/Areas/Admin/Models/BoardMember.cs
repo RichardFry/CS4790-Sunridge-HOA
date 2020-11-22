@@ -16,9 +16,12 @@ namespace SunridgeHOA.Areas.Admin.Models
 
         public int Priority { get; set; }
 
+        public int PhotoId { get; set; }
+
         public bool IsActive { get; set; }
 
         [Display(Name = "Owner Name")]
         public virtual SunridgeHOA.Models.Owner Owner { get; set; }
+        public virtual Photo Photo { get; set; }
     }
 }

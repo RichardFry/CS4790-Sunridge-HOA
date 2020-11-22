@@ -29,6 +29,11 @@
                 <span asp-validation-for="Priority" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="PhotoId" class="control-label"></label>
+                <select asp-for="PhotoId" class="form-control" asp-items="ViewBag.PhotoId"></select>
+                <span asp-validation-for="PhotoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <div class="checkbox">
                     <label>
                         <input asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)

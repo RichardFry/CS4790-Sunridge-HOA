@@ -10,8 +10,8 @@ using SunridgeHOA.Models;
 namespace SunridgeHOA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201120093735_changes_to_BM_model5")]
-    partial class changes_to_BM_model5
+    [Migration("20201122005316_Updating_PhotoId")]
+    partial class Updating_PhotoId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -143,11 +143,15 @@ namespace SunridgeHOA.Migrations
 
                     b.Property<int>("OwnerId");
 
+                    b.Property<int>("PhotoId");
+
                     b.Property<int>("Priority");
 
                     b.HasKey("BoardMemberId");
 
                     b.HasIndex("OwnerId");
+
+                    b.HasIndex("PhotoId");
 
                     b.ToTable("BoardMember");
                 });
@@ -919,6 +923,11 @@ namespace SunridgeHOA.Migrations
                     b.HasOne("SunridgeHOA.Models.Owner", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SunridgeHOA.Models.Photo", "Photo")
+                        .WithMany()
+                        .HasForeignKey("PhotoId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

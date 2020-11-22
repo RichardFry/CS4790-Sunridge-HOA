@@ -23,7 +23,10 @@ namespace SunridgeHOA.Areas.Admin.Controllers
         // GET: Admin/BoardMembers
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.BoardMember.Include(b => b.Owner);
+            var applicationDbContext = _context.BoardMember
+                .Include(b => b.Owner)
+                .Include(b => b.Photo)
+                .OrderBy(b => b.Priority);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -37,6 +40,7 @@ namespace SunridgeHOA.Areas.Admin.Controllers
 
             var boardMember = await _context.BoardMember
                 .Include(b => b.Owner)
+                .Include(b => b.Photo)
                 .FirstOrDefaultAsync(m => m.BoardMemberId == id);
             if (boardMember == null)
             {
@@ -50,6 +54,7 @@ namespace SunridgeHOA.Areas.Admin.Controllers
         public IActionResult Create()
         {
             ViewData["OwnerId"] = new SelectList(_context.Owner, "OwnerId", "FullName");
+            ViewData["PhotoId"] = new SelectList(_context.Photo, "PhotoId", "Title");
             return View();
         }
 
@@ -58,7 +63,7 @@ namespace SunridgeHOA.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BoardMemberId,BoardPosition,OwnerId,Priority,IsActive")] BoardMember boardMember)
+        public async Task<IActionResult> Create([Bind("BoardMemberId,BoardPosition,OwnerId,Priority,PhotoId,IsActive")] BoardMember boardMember)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +71,8 @@ namespace SunridgeHOA.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OwnerId"] = new SelectList(_context.Owner, "OwnerId", "FirstName", boardMember.OwnerId);
+            ViewData["OwnerId"] = new SelectList(_context.Owner, "OwnerId", "FullName", boardMember.OwnerId);
+            ViewData["PhotoId"] = new SelectList(_context.Photo, "PhotoId", "Title", boardMember.PhotoId);
             return View(boardMember);
         }
 
@@ -83,7 +89,8 @@ namespace SunridgeHOA.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["OwnerId"] = new SelectList(_context.Owner, "OwnerId", "FirstName", boardMember.OwnerId);
+            ViewData["OwnerId"] = new SelectList(_context.Owner, "OwnerId", "FullName", boardMember.OwnerId);
+            ViewData["PhotoId"] = new SelectList(_context.Photo, "PhotoId", "Title", boardMember.PhotoId);
             return View(boardMember);
         }
 
@@ -92,7 +99,7 @@ namespace SunridgeHOA.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BoardMemberId,BoardPosition,OwnerId,Priority,IsActive")] BoardMember boardMember)
+        public async Task<IActionResult> Edit(int id, [Bind("BoardMemberId,BoardPosition,OwnerId,Priority,PhotoId,IsActive")] BoardMember boardMember)
         {
             if (id != boardMember.BoardMemberId)
             {
@@ -119,7 +126,8 @@ namespace SunridgeHOA.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OwnerId"] = new SelectList(_context.Owner, "OwnerId", "FirstName", boardMember.OwnerId);
+            ViewData["OwnerId"] = new SelectList(_context.Owner, "OwnerId", "FullName", boardMember.OwnerId);
+            ViewData["PhotoId"] = new SelectList(_context.Photo, "PhotoId", "Title", boardMember.PhotoId);
             return View(boardMember);
         }
 
@@ -133,6 +141,7 @@ namespace SunridgeHOA.Areas.Admin.Controllers
 
             var boardMember = await _context.BoardMember
                 .Include(b => b.Owner)
+                .Include(b => b.Photo)
                 .FirstOrDefaultAsync(m => m.BoardMemberId == id);
             if (boardMember == null)
             {
