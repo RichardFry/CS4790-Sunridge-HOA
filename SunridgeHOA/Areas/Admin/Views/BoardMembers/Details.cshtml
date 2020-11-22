@@ -11,10 +11,10 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.BoardPosition)
+            @Html.DisplayNameFor(model => model.IsActive)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.BoardPosition)
+            @Html.DisplayFor(model => model.IsActive)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Priority)
@@ -23,22 +23,23 @@
             @Html.DisplayFor(model => model.Priority)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PhotoId)
+            @Html.DisplayNameFor(model => model.BoardPosition)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PhotoId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IsActive)
+            @Html.DisplayFor(model => model.BoardPosition)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Owner)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Owner.FirstName)
+            @Html.DisplayFor(model => model.Owner.FullName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Photo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Photo.Title)<br />
+            <img class="img-thumbnail w-25" src="@Model.Photo.Image" alt="@Model.Photo.Title" />
         </dd>
     </dl>
 </div>

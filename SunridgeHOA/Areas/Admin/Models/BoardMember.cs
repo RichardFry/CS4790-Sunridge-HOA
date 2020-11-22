@@ -10,14 +10,18 @@ namespace SunridgeHOA.Areas.Admin.Models
         
         public int BoardMemberId { get; set; }
 
+        [Display(Name = "Position")]
         public string BoardPosition { get; set; }
 
+        [Display(Name = "Owner")]
         public int OwnerId { get; set; }
 
         public int Priority { get; set; }
 
+        [Display(Name = "Photo")]
         public int PhotoId { get; set; }
 
+        [Display(Name = "Active")]
         public bool IsActive { get; set; }
 
         [Display(Name = "Owner Name")]

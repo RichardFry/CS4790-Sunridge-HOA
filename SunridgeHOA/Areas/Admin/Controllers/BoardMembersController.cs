@@ -53,8 +53,8 @@ namespace SunridgeHOA.Areas.Admin.Controllers
         // GET: Admin/BoardMembers/Create
         public IActionResult Create()
         {
-            ViewData["OwnerId"] = new SelectList(_context.Owner, "OwnerId", "FullName");
-            ViewData["PhotoId"] = new SelectList(_context.Photo, "PhotoId", "Title");
+            ViewData["OwnerId"] = new SelectList(_context.Owner.OrderBy(o => o.FullName), "OwnerId", "FullName");
+            ViewData["PhotoId"] = new SelectList(_context.Photo.OrderBy(p => p.Title), "PhotoId", "Title");
             return View();
         }
 
@@ -71,8 +71,8 @@ namespace SunridgeHOA.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OwnerId"] = new SelectList(_context.Owner, "OwnerId", "FullName", boardMember.OwnerId);
-            ViewData["PhotoId"] = new SelectList(_context.Photo, "PhotoId", "Title", boardMember.PhotoId);
+            ViewData["OwnerId"] = new SelectList(_context.Owner.OrderBy(o => o.FullName), "OwnerId", "FullName", boardMember.OwnerId);
+            ViewData["PhotoId"] = new SelectList(_context.Photo.OrderBy(p => p.Title), "PhotoId", "Title", boardMember.PhotoId);
             return View(boardMember);
         }
 
@@ -89,8 +89,8 @@ namespace SunridgeHOA.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["OwnerId"] = new SelectList(_context.Owner, "OwnerId", "FullName", boardMember.OwnerId);
-            ViewData["PhotoId"] = new SelectList(_context.Photo, "PhotoId", "Title", boardMember.PhotoId);
+            ViewData["OwnerId"] = new SelectList(_context.Owner.OrderBy(o => o.FullName), "OwnerId", "FullName", boardMember.OwnerId);
+            ViewData["PhotoId"] = new SelectList(_context.Photo.OrderBy(p => p.Title), "PhotoId", "Title", boardMember.PhotoId);
             return View(boardMember);
         }
 
@@ -126,8 +126,8 @@ namespace SunridgeHOA.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OwnerId"] = new SelectList(_context.Owner, "OwnerId", "FullName", boardMember.OwnerId);
-            ViewData["PhotoId"] = new SelectList(_context.Photo, "PhotoId", "Title", boardMember.PhotoId);
+            ViewData["OwnerId"] = new SelectList(_context.Owner.OrderBy(o => o.FullName), "OwnerId", "FullName", boardMember.OwnerId);
+            ViewData["PhotoId"] = new SelectList(_context.Photo.OrderBy(p => p.Title), "PhotoId", "Title", boardMember.PhotoId);
             return View(boardMember);
         }
 
