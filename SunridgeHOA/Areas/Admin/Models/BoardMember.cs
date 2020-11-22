@@ -18,16 +18,6 @@ namespace SunridgeHOA.Areas.Admin.Models
 
         public bool IsActive { get; set; }
 
-         //Calculated properties
-        //[Display(Name = "Name")]
-        //public string FullName
-        //{
-            //get
-            //{
-                //return $"{Owner.FirstName} {Owner.LastName}";
-            //}
-        //}
-
         [Display(Name = "Owner Name")]
         public virtual SunridgeHOA.Models.Owner Owner { get; set; }
     }

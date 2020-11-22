@@ -1,93 +1,182 @@
-﻿@model SunridgeHOA.Utility.PaginatedList< SunridgeHOA.Areas.Admin.Models.BoardMember>
-
-@using Microsoft.AspNetCore.Identity
-@inject UserManager<ApplicationUser> UserManager
-
+﻿@model List<SunridgeHOA.Areas.Admin.Models.BoardMember>
 @{
-    ViewData["Title"] = "Board Members Index";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Index";
 }
 
-<h2>Board Members Index</h2>
+<!-- Header Title -->
+<section class="p-5">
+    <div class="container">
+        <div class="container container-fluid no2">
+            <h1 class="main-heading mb-4 mt-4 text-center">Board Members</h1>
+        </div>
+    </div>
+</section>
 
-<div class="row justify-content-between">
-    <div class="col-lg-3 col-md-6">
-        <p id="btn-group">
-            <a asp-action="Create" class="btn btn-primary btn-sm btn-block">Create New Owner</a>
-        </p>
-    </div>
-    <div class="col-lg-4 col-md-6">
-        <form asp-action="Index" class="form">
-            <div class="input-group">
-                <input type="text" class="form-control" name="Query" placeholder="Search by name" />
-                <div class="input-group-append"><input type="submit" value="Search" id="search" class="btn btn-secondary" /></div>
-            </div>
-            <div class="mt-2">
-                <a asp-action="Index" class="ml-2">Show Full List</a>
-            </div>
-        </form>
-    </div>
-</div>
-<div class="table-responsive-sm">
-    <table class="table table-sm table-hover">
-        <thead>
-            <tr id="headTr">
-                <th>
-                    @Html.DisplayNameFor(model => model[0].Owner.FullName)
-                </th>
-                <th class="shrink-responsive">
-                    Board Positon
-                </th>
-                <th>
-                    Is Active
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
+<div class="container">
+    @{
+        int numOfColumns = 3;
+        int numCompleteRows = (int)Math.Ceiling((double)(Model.Count / numOfColumns));
+        bool incompleteRow = Model.Count % numOfColumns != 0;
+        int numTrailingColumns = Model.Count % numOfColumns;
+        int index = 0;
+    }
+    @for (int row = 0; row < numCompleteRows; row++)
+    {
+        //Create N rows of numOfColumns columns.
+        <div class="row">
+            @for (int col = 0; col < numOfColumns; col++)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Owner.FullName)
-                    </td>
-                    <td>
-                        @item.BoardPosition
-                    </td>
-                    <td>
-                        @item.IsActive
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <a asp-action="Edit" asp-route-id="@item.BoardMemberId" class="btn btn-info btn-sm"><span class="d-none d-lg-block">Edit</span><i class="fas fa-edit d-lg-none"></i></a>
-                            <a asp-action="LoginInfo" asp-route-id="@item.BoardMemberId" class="btn btn-success btn-sm"><span class="d-none d-lg-block">Password Reset</span><i class="fas fa-key d-lg-none"></i></a>
-                            <a asp-action="Details" asp-route-id="@item.BoardMemberId" class="btn btn-warning btn-sm"><span class="d-none d-lg-block">Details</span><i class="fas fa-info d-lg-none"></i></a>
-                            <a asp-action="Delete" asp-route-id="@item.BoardMemberId" class="btn btn-danger btn-sm"><span class="d-none d-lg-block">Delete</span><i class="fas fa-trash d-lg-none"></i></a>
-                        </div>
-                    </td>
-                </tr>
+                index = (row * numOfColumns) + col;
+                var boardMember = Model[index];
+                <div class="mb-5 col-lg-4">
+                    <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                        <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/brent-frost.png">
+                        <h5>@boardMember.Owner.FullName</h5>
+                        <p class="font-weight-light mb-0">@boardMember.Owner.Phone</p>
+                        <p class="font-weight-light mb-0">Email: <a href="mailto:@boardMember.Owner.Email">Brent Frost</a></p>
+                    </div>
+                </div>
             }
-        </tbody>
-    </table>
+        </div>
+    }
+    @{ if (index == 0)
+        { 
+            index = -1; 
+        } 
+    }
+    <div class="row">
+        @for (int col = 0; col < numTrailingColumns; col++)
+        {
+            index++;
+            var boardMember = Model[index];
+            string boardMembersLots = "";
+            if(boardMember.Owner.OwnerLots != null && boardMember.Owner.OwnerLots.Count > 0)
+            {
+                foreach (OwnerLot ownerLot in boardMember.Owner.OwnerLots)
+                {
+                    boardMembersLots += $"{ownerLot.Lot.LotNumber}, ";
+                }
+            }
+            else
+            {
+                boardMembersLots = "None";
+            }
+
+            <div class="mb-5 col-lg-4">
+                <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                    <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/brent-frost.png">
+                    <h5>@boardMember.Owner.FullName</h5>
+                    <p class="font-weight-light mb-0">Lot: @boardMembersLots</p>
+                    <p class="font-weight-light mb-0">Phone: @boardMember.Owner.Phone</p>
+                    <p class="font-weight-light mb-0">Email: <a href="mailto:@boardMember.Owner.Email">@boardMember.Owner.FullName</a></p>
+                </div>
+            </div>
+        }
+    </div>
+
+
+
+
+    @*<div class="row">
+        <div class="mb-5 col-lg-4">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/brent-frost.png">
+                <h5>President: Brent Frost</h5>
+                <p class="font-weight-light mb-0">Lot: H-230</p>
+                <p class="font-weight-light mb-0">(801)540-0661</p>
+                <p class="font-weight-light mb-0">Email: <a href="mailto:jbrentfrost@yahoo.com">Brent Frost</a></p>
+            </div>
+        </div>
+        <div class="mb-5 col-lg-4">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/jerry-baker.png">
+                <h5>Secretary: Jerry Baker</h5>
+                <p class="font-weight-light mb-0">Lot: H-232</p>
+                <p class="font-weight-light mb-0">(801)452-3498 </p>
+                <p class="font-weight-light mb-0">Email: <a href="mailto:Windriver92@gmail.com">Jerry Baker</a></p>
+            </div>
+        </div>
+        <div class="mb-5 col-lg-4">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/stephanie-taylor.png">
+                <h5>Treasurer: Stephanie Taylor</h5>
+                <p class="font-weight-light mb-0">Lot: H-157</p>
+                <p class="font-weight-light mb-0">(801)510-2370 </p>
+                <p class="font-weight-light mb-0">Email: <a href="mailto:Taylor-h157@comcast.net">Stephanie Taylor</a></p>
+            </div>
+        </div>
+        <div class="mb-5 col-lg-4">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/Mills.jpg">
+                <h5>Water Systems: Steve Mills</h5>
+                <p class="font-weight-light mb-0">Lot: H-202 </p>
+                <p class="font-weight-light mb-0">Phone: (801)391-8723</p>
+                <p class="font-weight-light mb-0">Email: <a href="mailto:LTRedCoat@msn.com">Steve Mills</a></p>
+            </div>
+        </div>
+        <div class="mb-5 col-lg-4">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/dick-sowers.png">
+                <h5>Vice President: Dick Sowers</h5>
+                <p class="font-weight-light mb-0">Lot: H-2 </p>
+                <p class="font-weight-light mb-0">Phone: (801)791-2958</p>
+                <p class="font-weight-light mb-0">Email: <a href="mailto:sowersrichard2019@gmail.com">Dick Sowers</a></p>
+            </div>
+        </div>
+        <div class="mb-5 col-lg-4">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/KENT-CONNLEY.png">
+                <h5>Roads: Kent Connelly</h5>
+                <p class="font-weight-light mb-0">Lot: SR-33</p>
+                <p class="font-weight-light mb-0">(307)727-8277</p>
+                <p class="font-weight-light mb-0">Email: <a href="mailto:kconnelly@lcwy.org">Kent Connelly</a></p>
+            </div>
+        </div>
+        <div class="mb-5 col-lg-4">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/roger.png">
+                <h5>Security/ATV/Covenants/ <br> Compliance: Roger Colvin</h5>
+                <p class="font-weight-light mb-0">Lot: H-39 </p>
+                <p class="font-weight-light mb-0">Phone: (801)389-1780</p>
+                <p class="font-weight-light mb-0">Email: <a href="mailto:RLC101@yahoo.com">Roger Colvin</a></p>
+            </div>
+        </div>
+        <div class="mb-5 col-lg-4">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/Wall.jpg">
+
+                <h5>Fire Protection/Sales: John Wall</h5>
+                <p class="font-weight-light mb-0">Lot: H-211 </p>
+                <p class="font-weight-light mb-0">Phone: (801)940-0090</p>
+                <p class="font-weight-light mb-0">Email: <a href="mailto:stuffer4@aol.com">John Wall</a></p>
+            </div>
+        </div>
+        <div class="mb-5 col-lg-4">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/fry.png" alt="dr-fry ">
+                <h5>Webmaster: Richard Fry</h5>
+                <p class="font-weight-light mb-0">Lot: H-8 </p>
+                <p class="font-weight-light mb-0">Phone: (801)635-6318 </p>
+                <p class="font-weight-light mb-0">Email: <a href="mailto:webmaster@sunridge.info">Richard Fry</a></p>
+            </div>
+        </div>
+        <div class="mb-5 col-lg-6">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/Dalpias.png">
+                <h5>Water System Consultant <br>(non-board member):<br> Alan Dalpias</h5>
+
+                <p class="font-weight-light mb-0">Phone: (801)782-8838 </p>
+                <p class="font-weight-light mb-0">Email: <a href="mailto:adalpias@comcast.net">Alan Dalpias</a></p>
+            </div>
+        </div>
+        <div class="mb-5 col-lg-6">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/carl-frazier.png">
+                <h5>Road Consultant <br>(non-board member):<br> Carl Frazier</h5>
+                <p class="font-weight-light mb-0">Lot: H-231 </p>
+                <p class="font-weight-light mb-0">Phone: (801)791-7905</p>
+                <p class="font-weight-light mb-0">Email: <a href="mailto:cwfrazier@live.com">Carl Frazier</a></p>
+            </div>
+        </div>
+    </div>*@
 </div>
-
-@{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-}
-
-<a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-query="@ViewBag.CurrentQuery" class="btn btn-default @prevDisabled">Previous</a>
-<a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-query="@ViewBag.CurrentQuery" class="btn btn-default @nextDisabled">Next</a>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
