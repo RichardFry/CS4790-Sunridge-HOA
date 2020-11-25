@@ -17,7 +17,7 @@ namespace SunridgeHOA.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var boardMemberContext = _context.BoardMember.Include(b => b.Owner);
+            var boardMemberContext = _context.BoardMember.Include(b => b.Owner).Include(b => b.Photo).Include(b => b.Owner.OwnerLots).ThenInclude(x => x.Lot);
             var boardMembers = await boardMemberContext.ToListAsync();
             var ordered = boardMembers.OrderBy(x => x.Priority).ToList();
             return View(ordered);

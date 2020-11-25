@@ -28,11 +28,24 @@
             {
                 index = (row * numOfColumns) + col;
                 var boardMember = Model[index];
+                string boardMembersLots = "";
+                if (boardMember.Owner.OwnerLots != null && boardMember.Owner.OwnerLots.Count > 0)
+                {
+                    foreach (OwnerLot ownerLot in boardMember.Owner.OwnerLots)
+                    {
+                        boardMembersLots += $"{ownerLot.Lot.LotNumber}, ";
+                    }
+                }
+                else
+                {
+                    boardMembersLots = "None";
+                }
                 <div class="mb-5 col-lg-4">
                     <div class="testimonial-item mx-auto mb-5 mb-lg-0">
                         <img class="img-fluid rounded-circle mb-3" src="@boardMember.Photo.Image">
                         <h5>@boardMember.BoardPosition: @boardMember.Owner.FullName</h5>
-                        <p class="font-weight-light mb-0">@boardMember.Owner.Phone</p>
+                        <p class="font-weight-light mb-0">Lot: @boardMembersLots</p>
+                        <p class="font-weight-light mb-0">Phone: @boardMember.Owner.Phone</p>
                         <p class="font-weight-light mb-0">Email: <a href="mailto:@boardMember.Owner.Email">@boardMember.Owner.Email</a></p>
                     </div>
                 </div>
@@ -64,8 +77,7 @@
 
             <div class="mb-5 col-lg-4">
                 <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                    @*<img class="img-fluid rounded-circle mb-3" src="@boardMember.Photo.Image"> What this should be, but Photo is null for some reason*@ 
-                    <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/brent-frost.png" />
+                    <img class="img-fluid rounded-circle mb-3" src="@boardMember.Photo.Image">
                     <h5>@boardMember.BoardPosition: @boardMember.Owner.FullName</h5>
                     <p class="font-weight-light mb-0">Lot: @boardMembersLots</p>
                     <p class="font-weight-light mb-0">Phone: @boardMember.Owner.Phone</p>
