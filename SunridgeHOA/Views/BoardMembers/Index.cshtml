@@ -14,10 +14,9 @@
 
 <div class="container">
     @{
-        int numOfColumns = 3;
-        int numCompleteRows = (int)Math.Ceiling((double)(Model.Count / numOfColumns));
-        bool incompleteRow = Model.Count % numOfColumns != 0;
-        int numTrailingColumns = Model.Count % numOfColumns;
+        int numOfColumns = 3; //Number of columsn per row.
+        int numCompleteRows = (int)Math.Ceiling((double)(Model.Count / numOfColumns)); //Number of rows that contains NumOfColumns columns
+        int numTrailingColumns = Model.Count % numOfColumns; //Number of columns that dont fit in a neat row
         int index = 0;
     }
     @for (int row = 0; row < numCompleteRows; row++)
@@ -27,19 +26,20 @@
             @for (int col = 0; col < numOfColumns; col++)
             {
                 index = (row * numOfColumns) + col;
-                var boardMember = Model[index];
-                string boardMembersLots = "";
+                var boardMember = Model[index]; //Access the boardMember from the list of returned boardMember models
+
+                //Create a lot string because an owner can have multiple lots. 
+                string boardMembersLots;
                 if (boardMember.Owner.OwnerLots != null && boardMember.Owner.OwnerLots.Count > 0)
                 {
-                    foreach (OwnerLot ownerLot in boardMember.Owner.OwnerLots)
-                    {
-                        boardMembersLots += $"{ownerLot.Lot.LotNumber}, ";
-                    }
+                    List<string> lots = boardMember.Owner.OwnerLots.Select(x => x.Lot.LotNumber).ToList();
+                    boardMembersLots = string.Join(',', lots);
                 }
                 else
                 {
                     boardMembersLots = "None";
                 }
+
                 <div class="mb-5 col-lg-4">
                     <div class="testimonial-item mx-auto mb-5 mb-lg-0">
                         <img class="img-fluid rounded-circle mb-3" src="@boardMember.Photo.Image">
@@ -52,144 +52,42 @@
             }
         </div>
     }
-    @{ if (index == 0)
-        { 
-            index = -1; 
-        } 
-    }
-    <div class="row">
-        @for (int col = 0; col < numTrailingColumns; col++)
+    @if (numTrailingColumns > 0)
+        //If we have extra columns that dont fit into a row evenly we come here
+    {
+        if (index == 0)
+            //This is to handle when the boardmembers is only 1 or 2. dont worry bout it. 
         {
-            index++;
-            var boardMember = Model[index];
-            string boardMembersLots = "";
-            if(boardMember.Owner.OwnerLots != null && boardMember.Owner.OwnerLots.Count > 0)
-            {
-                foreach (OwnerLot ownerLot in boardMember.Owner.OwnerLots)
-                {
-                    boardMembersLots += $"{ownerLot.Lot.LotNumber}, ";
-                }
-            }
-            else
-            {
-                boardMembersLots = "None";
-            }
-
-            <div class="mb-5 col-lg-4">
-                <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                    <img class="img-fluid rounded-circle mb-3" src="@boardMember.Photo.Image">
-                    <h5>@boardMember.BoardPosition: @boardMember.Owner.FullName</h5>
-                    <p class="font-weight-light mb-0">Lot: @boardMembersLots</p>
-                    <p class="font-weight-light mb-0">Phone: @boardMember.Owner.Phone</p>
-                    <p class="font-weight-light mb-0">Email: <a href="mailto:@boardMember.Owner.Email">@boardMember.Owner.Email</a></p>
-                </div>
-            </div>
+            index = -1;
         }
-    </div>
+        <div class="row">
+            @for (int col = 0; col < numTrailingColumns; col++)
+            {
+                index++;
+                var boardMember = Model[index];
 
+                //Create a lot string because an owner can have multiple lots. 
+                string boardMembersLots;
+                if (boardMember.Owner.OwnerLots != null && boardMember.Owner.OwnerLots.Count > 0)
+                {
+                    List<string> lots = boardMember.Owner.OwnerLots.Select(x => x.Lot.LotNumber).ToList();
+                    boardMembersLots = string.Join(',', lots);
+                }
+                else
+                {
+                    boardMembersLots = "None";
+                }
 
-
-
-    @*<div class="row">
-        <div class="mb-5 col-lg-4">
-            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/brent-frost.png">
-                <h5>President: Brent Frost</h5>
-                <p class="font-weight-light mb-0">Lot: H-230</p>
-                <p class="font-weight-light mb-0">(801)540-0661</p>
-                <p class="font-weight-light mb-0">Email: <a href="mailto:jbrentfrost@yahoo.com">Brent Frost</a></p>
-            </div>
+                <div class="mb-5 col-lg-4">
+                    <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                        <img class="img-fluid rounded-circle mb-3" src="@boardMember.Photo.Image">
+                        <h5>@boardMember.BoardPosition: @boardMember.Owner.FullName</h5>
+                        <p class="font-weight-light mb-0">Lot: @boardMembersLots</p>
+                        <p class="font-weight-light mb-0">Phone: @boardMember.Owner.Phone</p>
+                        <p class="font-weight-light mb-0">Email: <a href="mailto:@boardMember.Owner.Email">@boardMember.Owner.Email</a></p>
+                    </div>
+                </div>
+            }
         </div>
-        <div class="mb-5 col-lg-4">
-            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/jerry-baker.png">
-                <h5>Secretary: Jerry Baker</h5>
-                <p class="font-weight-light mb-0">Lot: H-232</p>
-                <p class="font-weight-light mb-0">(801)452-3498 </p>
-                <p class="font-weight-light mb-0">Email: <a href="mailto:Windriver92@gmail.com">Jerry Baker</a></p>
-            </div>
-        </div>
-        <div class="mb-5 col-lg-4">
-            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/stephanie-taylor.png">
-                <h5>Treasurer: Stephanie Taylor</h5>
-                <p class="font-weight-light mb-0">Lot: H-157</p>
-                <p class="font-weight-light mb-0">(801)510-2370 </p>
-                <p class="font-weight-light mb-0">Email: <a href="mailto:Taylor-h157@comcast.net">Stephanie Taylor</a></p>
-            </div>
-        </div>
-        <div class="mb-5 col-lg-4">
-            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/Mills.jpg">
-                <h5>Water Systems: Steve Mills</h5>
-                <p class="font-weight-light mb-0">Lot: H-202 </p>
-                <p class="font-weight-light mb-0">Phone: (801)391-8723</p>
-                <p class="font-weight-light mb-0">Email: <a href="mailto:LTRedCoat@msn.com">Steve Mills</a></p>
-            </div>
-        </div>
-        <div class="mb-5 col-lg-4">
-            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/dick-sowers.png">
-                <h5>Vice President: Dick Sowers</h5>
-                <p class="font-weight-light mb-0">Lot: H-2 </p>
-                <p class="font-weight-light mb-0">Phone: (801)791-2958</p>
-                <p class="font-weight-light mb-0">Email: <a href="mailto:sowersrichard2019@gmail.com">Dick Sowers</a></p>
-            </div>
-        </div>
-        <div class="mb-5 col-lg-4">
-            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/KENT-CONNLEY.png">
-                <h5>Roads: Kent Connelly</h5>
-                <p class="font-weight-light mb-0">Lot: SR-33</p>
-                <p class="font-weight-light mb-0">(307)727-8277</p>
-                <p class="font-weight-light mb-0">Email: <a href="mailto:kconnelly@lcwy.org">Kent Connelly</a></p>
-            </div>
-        </div>
-        <div class="mb-5 col-lg-4">
-            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/roger.png">
-                <h5>Security/ATV/Covenants/ <br> Compliance: Roger Colvin</h5>
-                <p class="font-weight-light mb-0">Lot: H-39 </p>
-                <p class="font-weight-light mb-0">Phone: (801)389-1780</p>
-                <p class="font-weight-light mb-0">Email: <a href="mailto:RLC101@yahoo.com">Roger Colvin</a></p>
-            </div>
-        </div>
-        <div class="mb-5 col-lg-4">
-            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/Wall.jpg">
-
-                <h5>Fire Protection/Sales: John Wall</h5>
-                <p class="font-weight-light mb-0">Lot: H-211 </p>
-                <p class="font-weight-light mb-0">Phone: (801)940-0090</p>
-                <p class="font-weight-light mb-0">Email: <a href="mailto:stuffer4@aol.com">John Wall</a></p>
-            </div>
-        </div>
-        <div class="mb-5 col-lg-4">
-            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/fry.png" alt="dr-fry ">
-                <h5>Webmaster: Richard Fry</h5>
-                <p class="font-weight-light mb-0">Lot: H-8 </p>
-                <p class="font-weight-light mb-0">Phone: (801)635-6318 </p>
-                <p class="font-weight-light mb-0">Email: <a href="mailto:webmaster@sunridge.info">Richard Fry</a></p>
-            </div>
-        </div>
-        <div class="mb-5 col-lg-6">
-            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/Dalpias.png">
-                <h5>Water System Consultant <br>(non-board member):<br> Alan Dalpias</h5>
-
-                <p class="font-weight-light mb-0">Phone: (801)782-8838 </p>
-                <p class="font-weight-light mb-0">Email: <a href="mailto:adalpias@comcast.net">Alan Dalpias</a></p>
-            </div>
-        </div>
-        <div class="mb-5 col-lg-6">
-            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                <img class="img-fluid rounded-circle mb-3" src="~/img/board-members/carl-frazier.png">
-                <h5>Road Consultant <br>(non-board member):<br> Carl Frazier</h5>
-                <p class="font-weight-light mb-0">Lot: H-231 </p>
-                <p class="font-weight-light mb-0">Phone: (801)791-7905</p>
-                <p class="font-weight-light mb-0">Email: <a href="mailto:cwfrazier@live.com">Carl Frazier</a></p>
-            </div>
-        </div>
-    </div>*@
+    }
 </div>
