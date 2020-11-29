@@ -6,15 +6,28 @@ using System.Threading.Tasks;
 
 namespace SunridgeHOA.Controllers
 {
+    /// <summary>
+    /// This class controls the access of boardmembers by non admins
+    /// </summary>
     public class BoardMembersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// Board members controller for non admin applications
+        /// </summary>
+        /// <param name="context">The entier database context</param>
         public BoardMembersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Create a list of board members.
+        /// Remove inactive members, sort them by priority.
+        /// Return the view. 
+        /// </summary>
+        /// <returns>The index view</returns>
         public async Task<IActionResult> Index()
         {
             //Include all tables that are needed by the view. 
