@@ -55,6 +55,7 @@ namespace SunridgeHOA.Areas.Admin.Controllers
         {
             ViewData["OwnerId"] = new SelectList(_context.Owner.OrderBy(o => o.FullName), "OwnerId", "FullName");
             ViewData["PhotoId"] = new SelectList(_context.Photo.OrderBy(p => p.Title), "PhotoId", "Title");
+            ViewData["Photos"] = _context.Photo.OrderBy(p => p.PhotoId);
             return View();
         }
 
@@ -91,6 +92,7 @@ namespace SunridgeHOA.Areas.Admin.Controllers
             }
             ViewData["OwnerId"] = new SelectList(_context.Owner.OrderBy(o => o.FullName), "OwnerId", "FullName", boardMember.OwnerId);
             ViewData["PhotoId"] = new SelectList(_context.Photo.OrderBy(p => p.Title), "PhotoId", "Title", boardMember.PhotoId);
+            ViewData["Photos"] = _context.Photo.OrderBy(p => p.PhotoId);
             return View(boardMember);
         }
 
